@@ -5,5 +5,5 @@ I think my formula will need to achieve at least 75% accuracy in predicting outr
 So far, I've spent more than three hours tweaking my formula. For the time being, the ALC's over/under and spreads are way more accurate than my formula.
 I used information from https://www.foxsports.com/articles/nfl/2024-nfl-defense-rankings-team-pass-and-rush-stats , https://www.alc.ca/content/proline-stadium/en/games/proline.html , and  https://www.nfeloapp.com/nfl-power-ratings/
 To start the project, my current formula is: NFL Team points scored = (ALC Projected Points) + Coaching Staff (out of 10) + weather (out of 10) - (33 - Scoring Defense Rank)/4 - (Opponent's Coaching Staff out of 10)/2
-
-I believe the oddsmakers rely on total defense ratings (yards allowed per game), but I think points allowed per game is a better measure of a team's defense. 
+I believe the oddsmakers rely on total defense ratings (yards allowed per game), but I think points allowed per game is a better measure of a team's defense.
+The formula was last updated on October 11, 2024. 
