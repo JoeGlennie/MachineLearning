@@ -2,14 +2,14 @@ First, I will post my formula's predictions for every game in week 6 (October 13
 
 My formula's predictions                       NFL Elo model                        Actual Results                     Formula Margin of Error                NFL ELO Margin of Error
 
-Browns    18.575                                 16.5   
-Eagles    28.825                                 26
+Browns    18.575                                 16.5                                  16                                    +2.075                                  +0.5
+Eagles    28.825                                 26                                    20                                    +8.825                                  +6.0
 
-Falcons   29.5                                   25.5
+Falcons   29.5                                   25.5                                  
 Panthers  21.625                                 21
 
-Colts     20.85                                  20.25
-Titans    25.6                                   25.6
+Colts     20.85                                  20.25                                 20                                    +0.85                                   +0.25                                
+Titans    25.6                                   22.75                                 17                                    +8.6                                    +5.75
 
 Bengals   25.2                                   25
 Giants    25.7                                   22
@@ -20,8 +20,8 @@ Raiders   13.425                                 17
 Chargers  15.825                                 18.25
 Broncos   14.95                                  17.25
 
-Buccaneers 22.15                                 22.75
-Saints     20.275                                19.25
+Buccaneers 22.15                                 22.75                                51
+Saints     20.275                                19.25                                27
 
 Texans     21.2                                  21.75  
 Patriots   16.575                                15.75
@@ -32,11 +32,11 @@ Bears      26.5                                  22.75                          
 Bills      21.2                                  21.75
 Jets       17.45                                 19.25
 
-Commanders 23.45                                 21.5
-Ravens     32.95                                 30
+Commanders 23.45                                 21.5                                  23                                   +0.45                                     +1.5
+Ravens     32.95                                 30                                    30                                   +2.95                                      0.0
 
-Cardinals  20.25                                 21.25
-Packers    30.25                                 26.25
+Cardinals  20.25                                 21.25                                 13                                   +7.25                                     +8.25
+Packers    30.25                                 26.25                                 34                                   -3.75                                     -7.75
 
 Lions      30.475                                27
 Cowboys    24.6                                  25.5
