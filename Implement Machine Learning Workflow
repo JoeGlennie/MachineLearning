@@ -5,8 +5,8 @@ My formula's predictions                       NFL Elo model                    
 Browns    18.575                                 16.5                                  16                                    +2.075                                  +0.5
 Eagles    28.825                                 26                                    20                                    +8.825                                  +6.0
 
-Falcons   29.5                                   25.5                                  
-Panthers  21.625                                 21
+Falcons   29.5                                   25.5                                  38                                    -8.5                                   -12.5
+Panthers  21.625                                 21                                    20                                    +1.625                                  +1.0
 
 Colts     20.85                                  20.25                                 20                                    +0.85                                   +0.25                                
 Titans    25.6                                   22.75                                 17                                    +8.6                                    +5.75
@@ -14,20 +14,20 @@ Titans    25.6                                   22.75                          
 Bengals   25.2                                   25
 Giants    25.7                                   22
 
-Steelers  25.55                                  20
-Raiders   13.425                                 17   
+Steelers  25.55                                  20                                    32                                    -6.45                                   -12
+Raiders   13.425                                 17                                    13                                    +0.425                                  +4.0
 
-Chargers  15.825                                 18.25
-Broncos   14.95                                  17.25
+Chargers  15.825                                 18.25                                 23                                    +7.175                                  +4.75
+Broncos   14.95                                  17.25                                 16                                    +1.05                                   -1.25
 
-Buccaneers 22.15                                 22.75                                51                                    -28.75                                   -28.25
-Saints     20.275                                19.25                                27                                    -6.725                                   -7.75
+Buccaneers 22.15                                 22.75                                 51                                    -28.75                                   -28.25
+Saints     20.275                                19.25                                 27                                    -6.725                                   -7.75
 
-Texans     21.2                                  21.75  
-Patriots   16.575                                15.75
+Texans     21.2                                  21.75                                 41                                    -19.80                                   -19.25
+Patriots   16.575                                15.75                                 21                                    -4.425                                   -5.25                              
 
-Jaguars    19.75                                 21.25                                 16                                   +3.75                                     +5.25
-Bears      26.5                                  22.75                                 35                                   -8.5                                      -12.25
+Jaguars    19.75                                 21.25                                 16                                    +3.75                                    +5.25
+Bears      26.5                                  22.75                                 35                                    -8.5                                     -12.25
 
 Bills      21.2                                  21.75
 Jets       17.45                                 19.25
@@ -38,7 +38,9 @@ Ravens     32.95                                 30                             
 Cardinals  20.25                                 21.25                                 13                                   +7.25                                     +8.25
 Packers    30.25                                 26.25                                 34                                   -3.75                                     -7.75
 
-Lions      30.475                                27
-Cowboys    24.6                                  25.5
+Lions      30.475                                27                                    47                                  -16.525                                    -20
+Cowboys    24.6                                  25.5                                   9                                   +15.6                                     +16.5
 
 October 13, 2024, 10:47 AM EST- Since the Giants' top wide receiver and running back will not be playing on Sunday, I believe the oddsmakers' prediction will be more accurate than my own. 
+
+For this week's analysis, I will include the outliers. In future weeks, I may remove them.
