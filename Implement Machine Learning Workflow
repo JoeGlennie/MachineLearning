@@ -29,8 +29,8 @@ Patriots   16.575                                15.75                          
 Jaguars    19.75                                 21.25                                 16                                    +3.75                                    +5.25
 Bears      26.5                                  22.75                                 35                                    -8.5                                     -12.25
 
-Bills      21.2                                  21.75
-Jets       17.45                                 19.25
+Bills      21.2                                  21.75                                 23                                    -1.8                                     -1.25 
+Jets       17.45                                 19.25                                 20                                    -2.55                                    -0.75
 
 Commanders 23.45                                 21.5                                  23                                   +0.45                                     +1.5
 Ravens     32.95                                 30                                    30                                   +2.95                                      0.0
@@ -45,10 +45,62 @@ October 13, 2024, 10:47 AM EST- Since the Giants' top wide receiver and running 
 
 For this week's analysis, I will include the outliers. In future weeks, I may remove them.                               Margin of Error                           Margin of Error
 
-                                                                                                                            -40.8                                     -54.75
+                                                                                                                            -44.45                                     -56.75
 
 I don't think calculating the net margin of error that way is helpful, so I also calculated the total margins of error.
-                                                                                                                            190.95                                    197.75           
+                                                                                                                            195.40                                      199.75           
 The ALC provides much better odds with the moneyline option than simply predicting the winner of each game. With moneyline, a team needs to win by at least four points. I've never been able to predict ties in football, so I will only predict outright winners. 
 
-For week 6, I was able to predict  of the outright wins. The Elo model predicted    of the     outright wins.
+For week 6, I was able to predict 8 of the outright wins. The Elo model predicted 6 of the outright wins.
+
+For week 7, I will probably adjust my forecasts if there are any last minute injury updates for superstars. 
+
+It looks like I underestimated the scores for a lot of teams. For the most part, the formula worked well for predicting outright winners. It certainly won't work for hockey, so that just leaves football and basketball.
+
+Week 7
+
+Broncos    22.15                                18.75
+Saints     15.40                                18.25
+
+Dolphins   22.85                                21.0
+Colts      24.35                                23.5
+
+Jets       14.075                               18
+Steelers   20.45                                20.5
+
+Eagles     22.45                                22.75
+Giants     19.82                                19.75
+
+Lions      23.7                                 25.5
+Vikings    22.7                                 24.5
+
+Bengals    22.725                               23.5
+Browns     20.95                                18
+
+Patriots   23.225                               18.75
+Jaguars    26.85                                23.75
+
+Panthers   23.275                               22.0
+Commanders 35.15                                29.5
+
+Titans     14.325                               16
+Bills      25.95                                24.5
+
+Raiders    22.8                                 19.0 
+Rams       30.05                                24.5
+
+Chiefs     24.425                              22.75
+49ers      23.3                                24.25
+
+Seahawks   25.025                               24.5
+Falcons    30.27                                 27
+
+Texans      25.575                             26.25
+Packers     21.575                             21.25
+
+Chargers    27.475                             22.25
+Cardinals   18.35                              23.25
+
+Ravens      29.1                                 26
+Buccaneers  25.35                                22.5
+
