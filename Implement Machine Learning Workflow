@@ -60,7 +60,7 @@ It looks like I underestimated the scores for a lot of teams. For the most part,
 Week 7
 
 Broncos    22.15                                18.75
-Saints     15.40                                18.25
+Saints     15.40          12.40                 18.25
 
 Dolphins   22.85                                21.0
 Colts      24.35                                23.5
@@ -107,3 +107,5 @@ Buccaneers  25.35                                22.5
 October 16, 2024- Since the Jets added Davante Adams a couple days ago, I have added my new projection to the right of my original prediction. 
 
 So far, the only examples I've found online only work with binary outcomes, so I don't think machine learning will help predict the number of points teams will score.
+
+9:55 AM ET, October 17, 2024- I update the Saints output because their two good wide receivers have been ruled out.
