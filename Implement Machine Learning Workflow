@@ -108,4 +108,135 @@ October 16, 2024- Since the Jets added Davante Adams a couple days ago, I have a
 
 So far, the only examples I've found online only work with binary outcomes, so I don't think machine learning will help predict the number of points teams will score.
 
-9:55 AM ET, October 17, 2024- I update the Saints output because their two good wide receivers have been ruled out.
+9:55 AM ET, October 17, 2024- I updated the Saints output because their two good wide receivers have been ruled out.
+
+It seems the formula is way too simple to be turned into a machine learning project. I noticed that lots of other people already completed machine learning projects to try to do the same thing. I think I would need to import all of the NFL's raw data from the past 100 years to need to complete all 600+ possible steps machine learning may require. 
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
+import seaborn as sns
+
+# required machine learning packages
+from sklearn import model_selection
+from sklearn.feature_selection import RFE
+from sklearn.metrics import brier_score_loss, roc_auc_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.linear_model import LogisticRegression
+from sklearn.calibration import CalibratedClassifierCV as CCV
+from sklearn.svm import LinearSVC, SVC
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, VotingClassifier
+import xgboost as xgb
+
+from sklearn import metrics
+from sklearn.metrics import roc_curve, auc
+from sklearn.model_selection import learning_curve
+from sklearn.model_selection import ShuffleSplit
+
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore",category=DeprecationWarning)
+
+# fixing some schedule_week column errors and converting column to integer data type
+df.loc[(df.schedule_week == '18'), 'schedule_week'] = '17'
+df.loc[(df.schedule_week == 'Wildcard') | (df.schedule_week == 'WildCard'), 'schedule_week'] = '18'
+df.loc[(df.schedule_week == 'Division'), 'schedule_week'] = '19'
+df.loc[(df.schedule_week == 'Conference'), 'schedule_week'] = '20'
+df.loc[(df.schedule_week == 'Superbowl') | (df.schedule_week == 'SuperBowl'), 'schedule_week'] = '21'
+df['schedule_week'] = df.schedule_week.astype(int)
+# Cleaning games_elo and df to merge correctly
+wsh_map = {'WSH' : 'WAS'}
+games_elo.loc[games_elo.team1 == 'WSH', 'team1'] = 'WAS' 
+games_elo.loc[games_elo.team2 == 'WSH', 'team2'] = 'WAS'
+
+# fix dates
+df.loc[(df.schedule_date == '2016-09-19') & (df.team_home == 'MIN'), 'schedule_date'] = datetime.datetime(2016, 9, 18)
+df.loc[(df.schedule_date == '2017-01-22') & (df.schedule_week == 21), 'schedule_date'] = datetime.datetime(2017, 2, 5)
+df.loc[(df.schedule_date == '1990-01-27') & (df.schedule_week == 21), 'schedule_date'] = datetime.datetime(1990, 1, 28)
+df.loc[(df.schedule_date == '1990-01-13'), 'schedule_date'] = datetime.datetime(1990, 1, 14)
+games_elo.loc[(games_elo.date == '2016-01-09'), 'date'] = datetime.datetime(2016, 1, 10)
+games_elo.loc[(games_elo.date == '2016-01-08'), 'date'] = datetime.datetime(2016, 1, 9)
+games_elo.loc[(games_elo.date == '2016-01-16'), 'date'] = datetime.datetime(2016, 1, 17)
+games_elo.loc[(games_elo.date == '2016-01-15'), 'date'] = datetime.datetime(2016, 1, 16)
+# Drop season before 2000
+df = df.drop(df[df.schedule_season < 2000].index)
+
+# Current Win-Loss% and Last season Win-Loss%
+# A very hacky method could take a few minutes
+for team in teams.team_id.unique().tolist():
+    for season in range(2000,2019): 
+        
+        wins, games_played = 0., 0.
+        
+        for week in range(1,18):
+            current_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == season) & (df.schedule_week == week)]
+            
+            # If a game exists
+            if(current_game.shape[0] == 1):
+                current_game = current_game.iloc[0]
+                
+    
+                if ((current_game.team_home == team) & (current_game.score_home > current_game.score_away)):
+                    wins += 1
+                    
+                elif ((current_game.team_away == team) & (current_game.score_away > current_game.score_home)):
+                    wins += 1
+                
+                # If not a tie count game as part of record
+                if(current_game.score_away != current_game.score_home):
+                    games_played += 1
+                
+                # If week one put default record as 0
+                if(week == 1):
+                    if(current_game.team_home == team):
+                        df.loc[(df.team_home == team) & (df.schedule_season == season) & (df.schedule_week == week), 'team_home_current_win_pct'] = 0 
+                    else:
+                        df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == week), 'team_away_current_win_pct'] = 0 
+
+            # Put record for next week game and account for bye week
+            next_week_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == season) & (df.schedule_week == week+1)]
+            # If a game exists
+            if(next_week_game.shape[0] == 1):
+                next_week_game = next_week_game.iloc[0]
+                if(next_week_game.team_home == team):
+                    df.loc[(df.team_home == team) & (df.schedule_season == season) & (df.schedule_week == week+1), 'team_home_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+                else:
+                    df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == week+1), 'team_away_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+            else: # Bye week
+                next_twoweek_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == season) & (df.schedule_week == week+2)]
+                # If a game exists
+                if(next_twoweek_game.shape[0] == 1):
+                    next_twoweek_game = next_twoweek_game.iloc[0]
+                    if(next_twoweek_game.team_home == team):
+                        df.loc[(df.team_home == team) & (df.schedule_season == season) & (df.schedule_week == week+2), 'team_home_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+                    else:
+                        df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == week+2), 'team_away_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+
+                    
+        # if beyond week 17 (playoffs use season record)
+        for postseason_week in range(18,22):
+            current_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == season) & (df.schedule_week == postseason_week)]
+            # If a game exists
+            if(current_game.shape[0] == 1):
+                current_game = current_game.iloc[0]
+                if(current_game.team_home == team):
+                    df.loc[(df.team_home == team) & (df.schedule_season == season) & (df.schedule_week == postseason_week), 'team_home_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+                else:
+                    df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == postseason_week), 'team_away_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+           
+        # if week 17 put current in next season
+        # if last season is 2000 (no record) put in as 
+        next_season = season+1
+        for week in range(1,22):
+            next_season_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == next_season) & (df.schedule_week == week)]
+            if(next_season_game.shape[0] == 1):
+                next_season_game = next_season_game.iloc[0]
+                if(next_season_game.team_home == team):
+                    df.loc[(df.team_home == team) & (df.schedule_season == next_season) & (df.schedule_week == week), 'team_home_lastseason_win_pct'] = 0 if games_played == 0 else wins/games_played
+                elif(next_season_game.team_away == team):
+                    df.loc[(df.team_away == team) & (df.schedule_season == next_season) & (df.schedule_week == week), 'team_away_lastseason_win_pct'] = 0 if games_played == 0 else wins/games_played
