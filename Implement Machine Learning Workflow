@@ -218,16 +218,7 @@ for team in teams.team_id.unique().tolist():
                         df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == week+2), 'team_away_current_win_pct'] = 0 if games_played == 0 else wins/games_played
 
                     
-        # if beyond week 17 (playoffs use season record)
-        for postseason_week in range(18,22):
-            current_game = df[((df.team_home == team) | (df.team_away == team)) & (df.schedule_season == season) & (df.schedule_week == postseason_week)]
-            # If a game exists
-            if(current_game.shape[0] == 1):
-                current_game = current_game.iloc[0]
-                if(current_game.team_home == team):
-                    df.loc[(df.team_home == team) & (df.schedule_season == season) & (df.schedule_week == postseason_week), 'team_home_current_win_pct'] = 0 if games_played == 0 else wins/games_played
-                else:
-                    df.loc[(df.team_away == team) & (df.schedule_season == season) & (df.schedule_week == postseason_week), 'team_away_current_win_pct'] = 0 if games_played == 0 else wins/games_played
+      
            
         # if week 17 put current in next season
         # if last season is 2000 (no record) put in as 
@@ -393,3 +384,5 @@ Cover The Spread Percentage: 46.96%
 Against The Spread Percentage: 49.32%
 pd.set_option('display.max_columns', 500)
 df.head()
+
+
