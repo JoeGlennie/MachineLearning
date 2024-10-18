@@ -1,4 +1,4 @@
-First, I will post my formula's predictions for every game in week 6 (October 13-14, 2024). After that, I will post the NFL Elo model's predictions based on the ALC's spreads. I hypothesize that I will need to reduce my formula's reliance on scoring defense rating and increase the weighting for the opponents' coaching staff.
+ffFirst, I will post my formula's predictions for every game in week 6 (October 13-14, 2024). After that, I will post the NFL Elo model's predictions based on the ALC's spreads. I hypothesize that I will need to reduce my formula's reliance on scoring defense rating and increase the weighting for the opponents' coaching staff.
 
 My formula's predictions                       NFL Elo model                        Actual Results                     Formula Margin of Error                NFL ELO Margin of Error
 
@@ -59,8 +59,8 @@ It looks like I underestimated the scores for a lot of teams. For the most part,
 
 Week 7
 
-Broncos    22.15                                18.75
-Saints     15.40          12.40                 18.25
+Broncos    22.15                                18.75                                 33                                     -10.75                                      -14.25
+Saints     15.40          12.40                 18.25                                 10                                      +2.4                                        +8.25
 
 Dolphins   22.85                                21.0
 Colts      24.35                                23.5
