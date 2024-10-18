@@ -240,3 +240,156 @@ for team in teams.team_id.unique().tolist():
                     df.loc[(df.team_home == team) & (df.schedule_season == next_season) & (df.schedule_week == week), 'team_home_lastseason_win_pct'] = 0 if games_played == 0 else wins/games_played
                 elif(next_season_game.team_away == team):
                     df.loc[(df.team_away == team) & (df.schedule_season == next_season) & (df.schedule_week == week), 'team_away_lastseason_win_pct'] = 0 if games_played == 0 else wins/games_played
+
+df = df.merge(games_elo[['date', 'team1', 'team2', 'elo_prob1', 'elo_prob2']], 
+                      left_on=['schedule_date', 'team_home', 'team_away'], right_on=['date', 'team1', 'team2'], how='left')
+
+# merge to fix neutral games where team_home and team_away are switched
+games_elo2 = games_elo.rename(columns={'team1' : 'team2', 
+                                       'team2' : 'team1', 
+                                       'elo1' : 'elo2', 
+                                       'elo2' : 'elo1',
+                                       'elo_prob1' : 'elo_prob2', 
+                                       'elo_prob2' : 'elo_prob1'})
+
+df = df.merge(games_elo2[['date', 'team1', 'team2', 'elo_prob1', 'elo_prob2']], 
+                      left_on=['schedule_date', 'team_home', 'team_away'], right_on=['date', 'team1', 'team2'], how='left')
+df.columns.values
+array(['schedule_date', 'schedule_season', 'schedule_week',
+       'schedule_playoff', 'team_home', 'score_home', 'score_away',
+       'team_away', 'team_favorite_id', 'spread_favorite',
+       'over_under_line', 'stadium', 'stadium_neutral',
+       'weather_temperature', 'weather_wind_mph', 'weather_humidity',
+       'weather_detail', 'home_favorite', 'away_favorite', 'over',
+       'team_away_current_win_pct', 'team_home_current_win_pct',
+       'team_home_lastseason_win_pct', 'team_away_lastseason_win_pct',
+       'team_home_division', 'team_away_division', 'division_game',
+       'date_x', 'team1_x', 'team2_x', 'elo_prob1_x', 'elo_prob2_x',
+       'date_y', 'team1_y', 'team2_y', 'elo_prob1_y', 'elo_prob2_y'], dtype=object)
+# separating merged columns into x and y cols
+x_cols = ['date_x', 'team1_x', 'team2_x', 'elo_prob1_x', 'elo_prob2_x']
+y_cols = ['date_y', 'team1_y', 'team2_y', 'elo_prob1_y','elo_prob2_y']
+
+# filling null values for games_elo merged cols
+for x, y in zip(x_cols, y_cols):
+    df[x] = df[x].fillna(df[y]) 
+    
+df = df[['schedule_date', 'schedule_season', 'schedule_week',
+       'schedule_playoff', 'team_home', 'score_home', 'score_away',
+       'team_away', 'team_favorite_id', 'spread_favorite',
+       'over_under_line', 'stadium', 'stadium_neutral',
+       'weather_temperature', 'weather_wind_mph', 'weather_humidity',
+       'weather_detail', 'home_favorite', 'away_favorite', 'over',
+       'team_away_current_win_pct', 'team_home_current_win_pct',
+       'team_home_lastseason_win_pct', 'team_away_lastseason_win_pct',
+       'team_home_division', 'team_away_division', 'division_game',
+        'elo_prob1_x', 'elo_prob2_x']]
+
+# remove _x ending from column names
+df.columns = df.columns.str.replace('_x', '')
+# Drop column where there are eno Elo information
+df = df.dropna(subset=['elo_prob1', 'elo_prob2'])
+# creating result column df.loc[(df.score_home > df.score_away), 'result'
+df['result'] = (df.score_home > df.score_away).astype(int)
+# creating home favorite and away favorite columns (fill na with 0's)
+df.loc[df.team_favorite_id == df.team_home, 'home_favorite'] = 1
+df.loc[df.team_favorite_id == df.team_away, 'away_favorite'] = 1
+df.home_favorite.fillna(0, inplace=True)
+df.away_favorite.fillna(0, inplace=True)
+# Change boolean column to 0/1
+df.division_game = df.division_game.astype(int)
+df.home_favorite = df.home_favorite.astype(int)
+df.away_favorite = df.away_favorite.astype(int)
+Export preprocessed data to CSV
+df.to_csv(path+"data_preprocessed.csv", index=False)
+# Read preprocessed csv file so don't have to run data preprocessing again
+df = pd.read_csv(path+"data_preprocessed.csv")
+Exploratory Data Analysis
+df.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 4783 entries, 0 to 4782
+Data columns (total 30 columns):
+schedule_date                   4783 non-null object
+schedule_season                 4783 non-null int64
+schedule_week                   4783 non-null int64
+schedule_playoff                4783 non-null int64
+team_home                       4783 non-null object
+score_home                      4783 non-null float64
+score_away                      4783 non-null float64
+team_away                       4783 non-null object
+team_favorite_id                4783 non-null object
+spread_favorite                 4783 non-null float64
+over_under_line                 4783 non-null float64
+stadium                         4783 non-null object
+stadium_neutral                 4783 non-null int64
+weather_temperature             4672 non-null float64
+weather_wind_mph                4672 non-null float64
+weather_humidity                2431 non-null float64
+weather_detail                  1342 non-null object
+home_favorite                   4783 non-null int64
+away_favorite                   4783 non-null int64
+over                            4783 non-null float64
+team_away_current_win_pct       4783 non-null float64
+team_home_current_win_pct       4783 non-null float64
+team_home_lastseason_win_pct    4783 non-null float64
+team_away_lastseason_win_pct    4783 non-null float64
+team_home_division              4783 non-null object
+team_away_division              4783 non-null object
+division_game                   4783 non-null int64
+elo_prob1                       4783 non-null float64
+elo_prob2                       4783 non-null float64
+result                          4783 non-null int64
+dtypes: float64(14), int64(8), object(8)
+memory usage: 1.1+ MB
+df.columns.values
+array(['schedule_date', 'schedule_season', 'schedule_week',
+       'schedule_playoff', 'team_home', 'score_home', 'score_away',
+       'team_away', 'team_favorite_id', 'spread_favorite',
+       'over_under_line', 'stadium', 'stadium_neutral',
+       'weather_temperature', 'weather_wind_mph', 'weather_humidity',
+       'weather_detail', 'home_favorite', 'away_favorite', 'over',
+       'team_away_current_win_pct', 'team_home_current_win_pct',
+       'team_home_lastseason_win_pct', 'team_away_lastseason_win_pct',
+       'team_home_division', 'team_away_division', 'division_game',
+       'elo_prob1', 'elo_prob2', 'result'], dtype=object) 
+
+home_win = "{:.2f}".format((sum((df.result == 1) & (df.stadium_neutral == 0)) / sum(df.stadium_neutral == 0)) * 100)
+# away_win = "{:.2f}".format((sum((df.result == 0) & (df.stadium_neutral == 0)) / len(df)) * 100)
+away_win = "{:.2f}".format((sum((df.result == 0) & (df.stadium_neutral == 0)) / sum(df.stadium_neutral == 0)) * 100)
+
+under_line = "{:.2f}".format((sum((df.score_home + df.score_away) < df.over_under_line) / len(df)) * 100)
+over_line = "{:.2f}".format((sum((df.score_home + df.score_away) > df.over_under_line) / len(df)) * 100)
+equal_line = "{:.2f}".format((sum((df.score_home + df.score_away) == df.over_under_line) / len(df)) * 100)
+
+favored = "{:.2f}".format((sum(((df.home_favorite == 1) & (df.result == 1)) | ((df.away_favorite == 1) & (df.result == 0)))
+                           / len(df)) * 100)
+
+
+cover = "{:.2f}".format((sum(((df.home_favorite == 1) & ((df.score_away - df.score_home) < df.spread_favorite)) | 
+                             ((df.away_favorite == 1) & ((df.score_home - df.score_away) < df.spread_favorite))) # use score_home - score_away because the fav are swap
+                         / len(df)) * 100)
+
+ats = "{:.2f}".format((sum(((df.home_favorite == 1) & ((df.score_away - df.score_home) > df.spread_favorite)) | 
+                           ((df.away_favorite == 1) & ((df.score_home - df.score_away) > df.spread_favorite))) 
+                       / len(df)) * 100)
+# print all percentages
+print("Number of Games: " + str(len(df)))
+print("Home Straight Up Win Percentage: " + home_win + "%")
+print("Away Straight Up Win Percentage: " + away_win + "%")
+print("Under Percentage: " + under_line + "%")
+print("Over Percentage: " + over_line + "%")
+print("Equal Percentage: " + equal_line + "%")
+print("Favored Win Percentage: " + favored + "%")
+print("Cover The Spread Percentage: " + cover + "%")
+print("Against The Spread Percentage: " + ats + "%")
+Number of Games: 4783
+Home Straight Up Win Percentage: 57.57%
+Away Straight Up Win Percentage: 42.43%
+Under Percentage: 49.70%
+Over Percentage: 48.55%
+Equal Percentage: 1.76%
+Favored Win Percentage: 65.96%
+Cover The Spread Percentage: 46.96%
+Against The Spread Percentage: 49.32%
+pd.set_option('display.max_columns', 500)
+df.head()
